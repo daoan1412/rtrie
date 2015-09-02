@@ -99,7 +99,7 @@ Rtrie.prototype.search = function(key, offset, limit) {
   var redis = this.redis;
   var metadataKey = this.metadataKey;
 
-  return redis.zrevrange(indexKey, offset, offset + limit - 1)
+  return redis.zrevrange(indexKey, offset, offset + limit)
     .then(function (ids) {
       if (!ids.length) {
         return [];

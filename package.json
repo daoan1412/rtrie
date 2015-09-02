@@ -1,6 +1,6 @@
 {
   "name": "redis-trie",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Trie based search for autocompletes with Redis.",
   "main": "index.js",
   "scripts": {
