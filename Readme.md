@@ -40,12 +40,13 @@ del the `key`.
 - key: key for index
 - id: id for metadata
 
-#### rtrie.search(key[, limit]) => {Promise}
+#### rtrie.search(key[, offset][, limit]) => {Promise}
 
 search for a key.
 
 - key: the search key
-- limit: the maximum number of results
+- offset: offset, default 0
+- limit: limit, default 20
 
 ### Example
 

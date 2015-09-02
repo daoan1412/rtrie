@@ -83,21 +83,23 @@ Rtrie.prototype.del = function(key, id) {
  * Searches for a key.
  * 
  * @param {String} key the search key
- * @param {Number} limit the maximum number of results
+ * @param {Number} offset offset
+ * @param {Number} limit limit
  * @return {Promise} Promise
  * @api public
  */
-Rtrie.prototype.search = function(key, limit) {
+Rtrie.prototype.search = function(key, offset, limit) {
   if (!key) {
     return Promise.reject(new Error('`key` must be given!'));
   }
+  offset = offset || 0;
   limit = limit || 20;
 
   var indexKey = this.trieKey + transliterate(key).trim().toLowerCase();
   var redis = this.redis;
   var metadataKey = this.metadataKey;
 
-  return redis.zrevrange(indexKey, 0, limit - 1)
+  return redis.zrevrange(indexKey, offset, offset + limit - 1)
     .then(function (ids) {
       if (!ids.length) {
         return [];
