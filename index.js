@@ -26,7 +26,7 @@ function Rtrie(options) {
  * @param {String} key key for index
  * @param {Object} value data you may want to store directly on the index.
  * @param {String} id id for metadata
- * @param {Number} priority the relevance of this item in comprassion of others.
+ * @param {Number|Funcrion=>Number} priority the relevance of this item in comprassion of others.
  * @return {Promise} Promise
  * @api public
  */
@@ -34,7 +34,15 @@ Rtrie.prototype.add = function(key, value, id, priority) {
   if (arguments.length < 3) {
     return Promise.reject(new Error('`key` and `value` and `id` must be given!'));
   }
-  priority = priority || 0;
+  priority = priority || function () { return 0; };
+  var _priority;
+  if ('number' === typeof priority) {
+    _priority = function () { return priority; };
+  } else if ('function' === typeof priority) {
+    _priority = priority;
+  } else {
+    return Promise.reject(new Error('`priority` must be number or function!'));
+  }
 
   var redis = this.redis;
   var trieKey = this.trieKey;
@@ -44,7 +52,7 @@ Rtrie.prototype.add = function(key, value, id, priority) {
   var multi = redis.multi();
 
   parts.forEach(function (part) {
-    multi.zadd(trieKey + part, priority, id);
+    multi.zadd(trieKey + part, _priority.call(null, key, value, id, part), id);
   });
 
   multi.hset(metadataKey, id, JSON.stringify(value));
