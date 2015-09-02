@@ -40,7 +40,7 @@ del the `key`.
 - key: key for index
 - id: id for metadata
 
-#### rtrie.search(key, limit) => {Promise}
+#### rtrie.search(key[, limit]) => {Promise}
 
 search for a key.
 
