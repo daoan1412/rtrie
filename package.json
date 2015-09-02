@@ -1,11 +1,14 @@
 {
-  "name": "rtrie",
-  "version": "0.0.0",
+  "name": "redis-trie",
+  "version": "1.0.0",
   "description": "Trie based search for autocompletes with Redis.",
-  "main": "rtrie.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./test/test.js"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/reu/rtrie"
+    "url": "https://github.com/nswbmw/rtrie"
   },
   "keywords": [
     "autocomplete",
@@ -14,14 +17,15 @@
     "redis",
     "trie"
   ],
-  "author": "Rodrigo Navarro",
+  "author": "nswbmw",
   "license": "BSD",
   "dependencies": {
-    "redis": "*",
-    "iconv": "*"
+    "iconv": "^2.1.10",
+    "ioredis": "^1.7.5"
   },
   "devDependencies": {
-    "mocha": "latest",
-    "should": "latest"
+    "co": "^4.6.0",
+    "deep-equal": "^1.0.1",
+    "mocha": "^2.3.0"
   }
 }

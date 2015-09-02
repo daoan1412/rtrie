@@ -1,55 +1,3 @@
-## redis-trie
-
-Trie based autocomplete with Redis.
-
-### Install
-
-```
-npm i redis-trie --save
-```
-
-### Usage
-
-```
-var rtrie = new Rtrie(options)
-```
-
-options:
-
-- trieKey: the key prefixes for indexes, default 'trie:index:'
-- metadataKey: the key prefixes for metadata, default 'trie:metadata'
-- client: redis client
-- host: redis host(only `client` not exist)
-- port: redis port(only `client` not exist)
-- password: redis password(only `client` not exist)
-- others option see [ioredis](https://github.com/luin/ioredis/blob/master/API.md#new-redisport-host-options)
-
-#### rtrie.add(key, value, id, priority) => {Promise}
-
-add the `key` with a given `value` and `id` and `priority`.
-
-- key: key for index
-- value: data you may want to store directly on the index.
-- id: id for metadata
-- priority: the relevance of this item in comprassion of others.
-
-#### rtrie.del(key, id) => {Promise}
-
-del the `key`.
-
-- key: key for index
-- id: id for metadata
-
-#### rtrie.search(key, limit) => {Promise}
-
-search for a key.
-
-- key: the search key
-- limit: the maximum number of results
-
-### Example
-
-```
 'use strict';
 
 var co = require('co');
@@ -125,10 +73,3 @@ co(function* () {
   //     username: 'user2',
   //     avatar: 'avatar2' } ]
 });
-```
-
-### Test
-
-```
-npm test
-```
