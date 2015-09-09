@@ -1,7 +1,5 @@
 'use strict';
 
-var iconv = require('iconv');
-
 /**
  * @class Rtrie
  *
@@ -48,7 +46,7 @@ Rtrie.prototype.add = function(key, value, id, priority) {
   var trieKey = this.trieKey;
   var metadataKey = this.metadataKey;
 
-  var parts = prefixes(transliterate(key).toLowerCase());
+  var parts = prefixes(key.toLowerCase());
   var multi = redis.multi();
 
   parts.forEach(function (part) {
@@ -76,7 +74,7 @@ Rtrie.prototype.del = function(key, id) {
   var trieKey = this.trieKey;
   var metadataKey = this.metadataKey;
 
-  var parts = prefixes(transliterate(key).toLowerCase());
+  var parts = prefixes(key.toLowerCase());
   var multi = redis.multi();
 
   parts.forEach(function (part) {
@@ -103,7 +101,7 @@ Rtrie.prototype.search = function(key, offset, limit) {
   offset = offset || 0;
   limit = limit || 20;
 
-  var indexKey = this.trieKey + transliterate(key).trim().toLowerCase();
+  var indexKey = this.trieKey + key.trim().toLowerCase();
   var redis = this.redis;
   var metadataKey = this.metadataKey;
 
@@ -140,18 +138,6 @@ function prefixes(term) {
     .reduce(function (words, prefixes) {
       return words.concat(prefixes);
     });
-}
-
-/**
- * Transliterate a given `term`.
- *
- * @param {String} term
- * @return {String} the converted ascii version of the string
- * @api private
- */
-var converter = new iconv.Iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE');
-function transliterate(term) {
-  return converter.convert(term).toString();
 }
 
 module.exports = Rtrie;
