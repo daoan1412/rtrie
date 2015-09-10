@@ -7,6 +7,11 @@ var rtrie = new Rtrie({
   client: redis
 });
 
+var rtrie2 = new Rtrie({
+  client: redis,
+  metadataKey: false
+});
+
 redis.on('error', function (err) {
   console.error(err);
   process.exit(1);
@@ -125,6 +130,113 @@ describe('Test redis-trie', function () {
   });
   it ('.search("user")', function (done) {
     rtrie.search('user')
+      .then(function (res) {
+        if (!res || res.length) {
+          return done(new Error('res should be []'));
+        }
+        done();
+      })
+      .catch(done);
+  });
+});
+
+describe('Test redis-trie when metadataKey is false', function () {
+  it ('.add("user1")', function (done) {
+    rtrie2.add(user1.username, user1, user1._id, dateFromObjectId(user1._id))
+      .then(function () {
+        done();
+      })
+      .catch(done);
+  });
+  it ('.search("user") && .search("user1") && .search("user2")', function (done) {
+    rtrie2.search('user')
+      .then(function (res) {
+        if (!deepEqual(res[0], user1._id)) {
+          return done(new Error('res[0] not equals to user1._id'));
+        }
+        return rtrie2.search('user1');
+      })
+      .then(function (res) {
+        if (!deepEqual(res[0], user1._id)) {
+          return done(new Error('res[0] not equals to user1._id'));
+        }
+        return rtrie2.search("user2");
+      })
+      .then(function (res) {
+        if (!res || res.length) {
+          return done(new Error('res should be []'));
+        }
+        done();
+      })
+      .catch(done);
+  });
+  it ('.add("user2")', function (done) {
+    rtrie2.add(user2.username, user2, user2._id, dateFromObjectId(user2._id))
+      .then(function () {
+        done();
+      })
+      .catch(done);
+  });
+  it ('.search("user") && .search("user1") && .search("user2")', function (done) {
+    rtrie2.search('user')
+      .then(function (res) {
+        if (!deepEqual(res, [user2._id, user1._id])) {
+          return done(new Error('res not equals to [user2._id, user1._id]'));
+        }
+        return rtrie2.search('user1');
+      })
+      .then(function (res) {
+        if (!deepEqual(res[0], user1._id)) {
+          return done(new Error('res[0] not equals to user1._id'));
+        }
+        return rtrie2.search('user2');
+      })
+      .then(function (res) {
+        if (!deepEqual(res[0], user2._id)) {
+          return done(new Error('res[0] not equals to user2._id'));
+        }
+        done();
+      })
+      .catch(done);
+  });
+  it ('.del("user1")', function (done) {
+    rtrie2.del(user1.username, user1._id)
+      .then(function () {
+        done();
+      })
+      .catch(done);
+  });
+  it ('.search("user") && .search("user1") && .search("user2")', function (done) {
+    rtrie2.search('user')
+      .then(function (res) {
+        if (!deepEqual(res[0], user2._id)) {
+          return done(new Error('res[0] not equals to user2._id'));
+        }
+        return rtrie2.search('user1');
+      })
+      .then(function (res) {
+        if (!res || res.length) {
+          return done(new Error('res should be []'));
+        }
+        return rtrie2.search('user2');
+      })
+      .then(function (res) {
+        if (!deepEqual(res[0], user2._id)) {
+          return done(new Error('res[0] not equals to user2._id'));
+        }
+        done();
+      })
+      .catch(done);
+  });
+  it ('.del("user2")', function (done) {
+    rtrie2.del(user2.username, user2._id)
+      .then(function () {
+        done();
+      })
+      .catch(done);
+  });
+  it ('.search("user")', function (done) {
+    rtrie2.search('user')
       .then(function (res) {
         if (!res || res.length) {
           return done(new Error('res should be []'));

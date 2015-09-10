@@ -5,7 +5,7 @@
  *
  * @param {Object} options
  * @param {String} options.trieKey the key prefixes for indexes
- * @param {String} options.metadataKey the key prefixes for metadata
+ * @param {String|false} options.metadataKey the key prefixes for metadata, if `false`, not save metadata to redis
  * @param {String} options.client redis client
  * @param {String} options.host redis host(only `client` not exist)
  * @param {String} options.port redis port(only `client` not exist)
@@ -14,7 +14,7 @@
 function Rtrie(options) {
   options = options || {};
   this.trieKey = options.trieKey || 'trie:index:';
-  this.metadataKey = options.metadataKey || 'trie:metadata';
+  this.metadataKey = options.metadataKey === false ? false : (options.metadataKey || 'trie:metadata');
   this.redis = options.client || new require('ioredis')(options);
 }
 
@@ -53,7 +53,9 @@ Rtrie.prototype.add = function(key, value, id, priority) {
     multi.zadd(trieKey + part, _priority.call(null, key, value, id, part), id);
   });
 
-  multi.hset(metadataKey, id, JSON.stringify(value));
+  if (metadataKey !== false) {
+    multi.hset(metadataKey, id, JSON.stringify(value));
+  }
   return multi.exec();
 };
 
@@ -81,7 +83,9 @@ Rtrie.prototype.del = function(key, id) {
     multi.zrem(trieKey + part, id);
   });
   
-  multi.hdel(metadataKey, id);
+  if (metadataKey !== false) {
+    multi.hdel(metadataKey, id);
+  }
   return multi.exec();
 };
 
@@ -110,10 +114,14 @@ Rtrie.prototype.search = function(key, offset, limit) {
       if (!ids.length) {
         return [];
       }
-      return redis.hmget(metadataKey, ids);
-    })
-    .then(function (results) {
-      return results.map(JSON.parse);
+      if (metadataKey === false) {
+        return ids;
+      }
+      return redis
+        .hmget(metadataKey, ids)
+        .then(function (metadatas) {
+          return metadatas.map(JSON.parse);
+        });
     });
 };
 
