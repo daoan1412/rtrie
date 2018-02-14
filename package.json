@@ -1,6 +1,6 @@
 {
   "name": "redis-trie-vi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Trie based search for autocompletes with Redis. (support vietnamese)",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,8 @@
   "author": "daoan1412",
   "license": "BSD",
   "dependencies": {
-    "ioredis": "^3.2.2"
+    "ioredis": "^3.2.2",
+    "nodemon": "^1.14.12"
   },
   "devDependencies": {
     "co": "^4.6.0",

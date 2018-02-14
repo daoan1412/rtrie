@@ -150,6 +150,11 @@ Rtrie.prototype.search = function(key, offset, limit) {
 /**
     Generate prefixes
  */
+
+function replaceSpecialChars(string) {
+    return string.replace(/-/g, ' ')
+}
+
 function stringToPhrases(string) {
     let words = string.split(' '),
         phrases = [];
@@ -188,6 +193,7 @@ function prefixes(string) {
 // normalize a string with Vietnamese
 // into non-accent mark
 function normalize(string) {
+    string = replaceSpecialChars(string)
     return string
         .split('')
         .map(char => {
