@@ -1,11 +1,11 @@
 ## redis-trie
 
-Trie based autocomplete with Redis.
+Trie based autocomplete with Redis. (support vietnamese)
 
 ### Install
 
 ```
-npm i redis-trie --save
+npm i redis-trie-vi --save
 ```
 
 ### Usage

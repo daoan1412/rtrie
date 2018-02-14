@@ -1,26 +1,27 @@
 {
-  "name": "redis-trie",
-  "version": "1.4.0",
-  "description": "Trie based search for autocompletes with Redis.",
+  "name": "redis-trie-vi",
+  "version": "1.0.0",
+  "description": "Trie based search for autocompletes with Redis. (support vietnamese)",
   "main": "index.js",
   "scripts": {
     "test": "mocha ./test/test.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nswbmw/rtrie"
+    "url": "https://github.com/daoan1412/rtrie"
   },
   "keywords": [
     "autocomplete",
     "auto-complete",
     "completer",
     "redis",
-    "trie"
+    "trie",
+    "vietnamese"
   ],
-  "author": "nswbmw",
+  "author": "daoan1412",
   "license": "BSD",
   "dependencies": {
-    "ioredis": "^1.7.5"
+    "ioredis": "^3.2.2"
   },
   "devDependencies": {
     "co": "^4.6.0",

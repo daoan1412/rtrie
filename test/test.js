@@ -33,7 +33,7 @@ var dateFromObjectId = function (objectId) {
   return new Date(parseInt(objectId.substring(0, 8), 16) * 1000).getTime();
 };
 
-describe('Test redis-trie', function () {
+describe('Test redis-trie-vi', function () {
   it ('.add("user1")', function (done) {
     rtrie.add(user1.username, user1, user1._id, dateFromObjectId(user1._id))
       .then(function () {
@@ -140,7 +140,7 @@ describe('Test redis-trie', function () {
   });
 });
 
-describe('Test redis-trie when metadataKey is false', function () {
+describe('Test redis-trie-vi when metadataKey is false', function () {
   it ('.add("user1")', function (done) {
     rtrie2.add(user1.username, user1, user1._id, dateFromObjectId(user1._id))
       .then(function () {
