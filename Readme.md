@@ -1,4 +1,6 @@
 ## redis-trie
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdaoan1412%2Frtrie.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdaoan1412%2Frtrie?ref=badge_shield)
+
 
 Trie based autocomplete with Redis. (support vietnamese)
 
@@ -229,3 +231,6 @@ co(function* () {
 ```
 npm test
 ```
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdaoan1412%2Frtrie.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdaoan1412%2Frtrie?ref=badge_large)
