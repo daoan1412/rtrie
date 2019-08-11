@@ -30,10 +30,12 @@ var vietnameseMap = [{
  * @param {String} options.password redis password(only `client` not exist)
  */
 function Rtrie(options) {
+    var Redis = require('ioredis');
+
     options = options || {};
     this.trieKey = options.trieKey || 'trie:index:';
     this.metadataKey = options.metadataKey === false ? false : (options.metadataKey || 'trie:metadata');
-    this.redis = options.client || new require('ioredis')(options);
+    this.redis = options.client || new Redis(options);
 }
 
 /**
