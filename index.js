@@ -16,7 +16,6 @@ var vietnameseMap = [{
 }, {
     "d": ["đ"]
 }]
-var Redis = require('ioredis');
 
 /**
  * @class Rtrie
@@ -30,6 +29,7 @@ var Redis = require('ioredis');
  * @param {String} options.password redis password(only `client` not exist)
  */
 function Rtrie(options) {
+    var Redis = require('ioredis');
     options = options || {};
     this.trieKey = options.trieKey || 'trie:index:';
     this.metadataKey = options.metadataKey === false ? false : (options.metadataKey || 'trie:metadata');
